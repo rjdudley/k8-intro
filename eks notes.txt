@@ -2,6 +2,8 @@ Kubernetes in AWS
 * totally self-managed on EC2
 * partially to fully AWS managed on EKS
 
+(open eks.drawio in VS Code with Henning Dieterichs' Draw.Io Integration extension)
+
 EKS
 * fully managed control plane
 
