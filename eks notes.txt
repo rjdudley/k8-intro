@@ -38,3 +38,48 @@ EKS
 		- https://repost.aws/knowledge-center/eks-api-server-unauthorized-error
 		- not the usual IAM setup, done on the command line
 	
+
+Multiple config reference: https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+change between local (minikuke) and AWS context
+kubectl config use-context {context name}
+
+View the config file in %userprofile%\.kube folder, or use 
+kubectl config view
+
+Edit the config file for friendlier names, the AWS default name is the entire ARN
+
+Will need a second deployment file for cloud, since cloud uses a LoadBalancer service, and local uses NodePort
+Note that all we configured was LoadBalancer, EKS creates an ELB and related security groups
+
+EKS references
+- https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html
+- https://www.jetbrains.com/dotnet/guide/tutorials/dotnet-days-online-2021/containerize-net-apps-and-deploy-to-kubernetes/
+- https://runeet.hashnode.dev/deploy-aspnet-core-apps-to-amazon-elastic-kubernetes-service-eks
+
+Cloud has many new challenges than dev machine or on-prem
+- different components
+- components you may not have needed local/on-prem
+- very different configuration
+- 
+
+First try stuck in Pending
+kubectl get pod
+
+kubectl describe pod contactsapi-pod
+reported taints
+
+"Warning  FailedScheduling  13s (x2 over 5m16s)  default-scheduler  0/2 nodes are available: 2 node(s) had untolerated taint {eks.amazonaws.com/compute-type: fargate}. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling.."
+
+EKS adds two tolerations by default, we need to figure out which of these two is the issue
+
+node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+
+
+Troubleshooting
+
+- needed a NAT: https://stackoverflow.com/questions/59649086/pod-stuck-in-pending-state-when-trying-to-schedule-it-on-aws-fargate
+- needed subnet tags: https://victoryeo-62924.medium.com/external-ip-pending-problem-in-aws-eks-7f2df180da54
+- debugging: https://repost.aws/knowledge-center/eks-pod-status-troubleshooting
+

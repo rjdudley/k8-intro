@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: contactsapi-pod
+    labels:
+        project: k8-intro
+spec:
+    containers:
+        - name: contactsapi
+          image: rjdudley/contactsapi:6.0
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+    name: contactsui-pod
+    labels:
+        project: k8-intro-ui
+spec:
+    containers:
+        - name: contactswebui
+          image: rjdudley/contactswebui:2.0
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    project: k8-intro
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    project: k8-intro-ui
