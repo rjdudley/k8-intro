@@ -82,4 +82,12 @@ Troubleshooting
 - needed a NAT: https://stackoverflow.com/questions/59649086/pod-stuck-in-pending-state-when-trying-to-schedule-it-on-aws-fargate
 - needed subnet tags: https://victoryeo-62924.medium.com/external-ip-pending-problem-in-aws-eks-7f2df180da54
 - debugging: https://repost.aws/knowledge-center/eks-pod-status-troubleshooting
+- you may need to create a NAT: https://repost.aws/knowledge-center/ecs-fargate-tasks-private-subnet
+
+created public NAT per https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating
+deleted and redeployed pods
+
+
+
+
 
